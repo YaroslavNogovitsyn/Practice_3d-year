@@ -1,3 +1,5 @@
+import sys
+
 with open("input.txt", encoding='utf-8') as in_file:
     reader = in_file.readlines()
     size = int(reader[0])
@@ -10,7 +12,6 @@ with open("input.txt", encoding='utf-8') as in_file:
 begin_index = int(input("Введите начальную точку:")) - 1
 end = int(input("Введите конечную точку:")) - 1
 
-
 d = 0
 
 
@@ -21,7 +22,7 @@ def round1(num):
 def init_vertices_and_distance():
     global d
     # Инициализация вершин и расстояний
-    d = [10000] * size  # минимальное расстояние
+    d = [sys.maxsize] * size  # минимальное расстояние
     v = [1] * size  # посещенные вершины
 
     d[begin_index] = 0
@@ -48,12 +49,13 @@ def init_vertices_and_distance():
 
 
 init_vertices_and_distance()
+float_d = d
 
 # Вывод кратчайших расстояний до вершин
 print("Кратчайшие расстояния до вершин:")
 print(*list(map(round1, d)))
 
-
+float_a = a[:]
 for i in range(size):
     a[i] = list(map(int, a[i]))
 
@@ -63,15 +65,21 @@ ver = [0] * size  # список посещенных вершин
 ver[0] = end + 1  # начальный элемент - конечная вершина
 k = 1  # индекс предыдущей вершины
 weight = d[end]  # вес конечной вершины
+distance = 0  # Расстояние кратчайшего пути
 while end != begin_index:  # пока не дошли до начальной вершины
     for i in range(size):  # просматриваем все вершины
         if a[i][end] != 0:  # если связь есть
             temp = weight - a[i][end]  # определяем вес пути из предыдущей вершины
             if temp == d[i]:  # если вес совпал с рассчитанным
+                distance += float_a[i][end]
                 # значит из этой вершины и был переход
                 weight = temp  # сохраняем новый вес
                 end = i  # сохраняем предыдущую вершину
                 ver[k] = i + 1  # и записываем ее в список
                 k += 1
+        if end == begin_index:
+            break
 print("Вывод кратчайшего пути:")
 print(*ver[:k][::-1])
+print("Расстояние кратчайшего пути:")
+print(round(distance, 2))
