@@ -6,14 +6,11 @@ with open("input.txt", encoding='utf-8') as in_file:
     for line in reader:
         line = list(map(float, line.split()))
         a.append(line)
+
 begin_index = int(input("Введите начальную точку:")) - 1
 end = int(input("Введите конечную точку:")) - 1
 
-# # Вывод матрицы связей
-# for i in range(size):
-#     for j in range(size):
-#         print(a[i][j], end='\t')
-#     print()
+
 d = 0
 
 
